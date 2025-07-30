@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_30_052233) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_30_060441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_052233) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "affiliations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -57,6 +63,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_052233) do
     t.string "vehicle"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "person_affiliations", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "affiliation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["affiliation_id"], name: "index_person_affiliations_on_affiliation_id"
+    t.index ["person_id"], name: "index_person_affiliations_on_person_id"
   end
 
   create_table "person_locations", force: :cascade do |t|
@@ -75,8 +90,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_052233) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "person_affliations", "affliations"
-  add_foreign_key "person_affliations", "people"
+  add_foreign_key "person_affiliations", "affiliations"
+  add_foreign_key "person_affiliations", "people"
   add_foreign_key "person_locations", "locations"
   add_foreign_key "person_locations", "people"
 end
