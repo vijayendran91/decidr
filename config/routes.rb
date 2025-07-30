@@ -1,5 +1,6 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
+  get "views/person_view"
   get "upload/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -16,6 +17,8 @@ Rails.application.routes.draw do
   root "upload#home"
 
   post "/upload", to: "upload#upload", as: :upload
+
+  get "/main_view", to: "views#main", as: :main_view
 
   if Rails.env.development?
     Decidr::Application.routes.draw do

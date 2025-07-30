@@ -12,7 +12,7 @@ class CsvUploadJob
         affilation_names.each do |name|
           affiliation = Affiliation.find_or_create_by(name: name)
           unless person.nil?
-            person.affiliations << affiliation unless person&.affiliations&.exists?(affiliation.id)
+            person.affiliations << affiliation unless person.affiliations.exists?(affiliation.id)
           end
         end
       end
@@ -21,7 +21,7 @@ class CsvUploadJob
       locations.each do |location_name|
         location = Location.find_or_create_by(name: location_name.capitalize)
         unless person.nil?
-          person.locations << location unless person&.locations&.exists?(location.id)
+          person.locations << location unless person.locations.exists?(location.id)
         end
       end
     end
@@ -43,10 +43,10 @@ class CsvUploadJob
   end
 
   def format_gender(gender)
-    case gender
-    when "M" || "m" || "Male" || "male"
+    case gender.to_s.strip.downcase
+    when "m", "male"
       "Male"
-    when "F" || "f" || "Female" || "female"
+    when "f", "female"
       "Female"
     else
       "Other"

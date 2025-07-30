@@ -7,7 +7,7 @@ class UploadController < ApplicationController
     @upload = Upload.new(file: upload_params)
     if @upload.save!
       CsvUploadJob.perform_async(@upload.file.blob.key)
-      # redirect_to upload_success_path, notice: "Upload queued for processing"
+      redirect_to main_view_path, notice: "Upload queued for processing"
     end
   end
 
