@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_30_060441) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_30_090506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_060441) do
     t.string "vehicle"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["first_name"], name: "index_people_on_first_name", unique: true
   end
 
   create_table "person_affiliations", force: :cascade do |t|
@@ -71,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_060441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["affiliation_id"], name: "index_person_affiliations_on_affiliation_id"
+    t.index ["person_id", "affiliation_id"], name: "index_person_affiliations", unique: true
     t.index ["person_id"], name: "index_person_affiliations_on_person_id"
   end
 
@@ -80,6 +82,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_30_060441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_person_locations_on_location_id"
+    t.index ["person_id", "location_id"], name: "index_person_locations", unique: true
     t.index ["person_id"], name: "index_person_locations_on_person_id"
   end
 
