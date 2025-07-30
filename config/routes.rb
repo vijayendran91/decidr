@@ -1,4 +1,6 @@
+require "sidekiq/web"
 Rails.application.routes.draw do
+  get "upload/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,7 +13,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root "people#home"
+  root "upload#home"
 
-  post "/upload", to: "people#upload", as: :upload
+  post "/upload", to: "upload#upload", as: :upload
+
+  if Rails.env.development?
+    Decidr::Application.routes.draw do
+      mount Sidekiq::Web => "/sidekiq"
+    end
+  end
 end
