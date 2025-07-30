@@ -2,10 +2,64 @@ class CsvUploadJob
   include Sidekiq::Job
 
   def perform(file_key)
-    byebug
     blob = ActiveStorage::Blob.find_by(key: file_key)
     file_path = ActiveStorage::Blob.service.path_for(blob.key)
     CSV.foreach(file_path, headers: true) do |row|
+      affilation_names = format_affiliations(row["Affiliations"])
+      person = nil
+      unless affilation_names.empty?
+        person = save_person(row)
+        affilation_names.each do |name|
+          affiliation = Affiliation.find_or_create_by(name: name)
+          person.affiliations << affiliation
+        end
+      end
+
+      locations = format_locations(row["Location"])
+      locations.each do |location_name|
+        location = Location.find_or_create_by(name: location_name.capitalize)
+        person.locations << location unless person.nil?
+      end
     end
+  end
+
+  private
+
+  def format_names(names)
+    names = names.split(" ")
+    names.map! { |name| name.capitalize }
+  end
+
+  def format_affiliations(affiliations)
+    affiliations.nil? ? [] : affiliations.split(",")
+  end
+
+  def format_locations(locations)
+    locations.split(",")
+  end
+
+  def format_gender(gender)
+    case gender
+    when "M" || "m" || "Male" || "male"
+      "Male"
+    when "F" || "f" || "Female" || "female"
+      "Female"
+    else
+      "Other"
+    end
+  end
+
+  def save_person(row)
+    names = format_names(row["Name"])
+    person = Person.find_or_initialize_by(first_name: names[0])
+    unless person.nil?
+      person.last_name = names[1..].join(" ") unless names[1].empty?
+      person.species = row["Species"]
+      person.gender = format_gender(row["Gender"])
+      person.weapon = row["Weapon"]
+      person.vehicle = row["Vehicle"]
+      person.save!
+    end
+    person
   end
 end
