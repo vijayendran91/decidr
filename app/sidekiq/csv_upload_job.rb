@@ -11,14 +11,18 @@ class CsvUploadJob
         person = save_person(row)
         affilation_names.each do |name|
           affiliation = Affiliation.find_or_create_by(name: name)
-          person.affiliations << affiliation
+          unless person.nil?
+            person.affiliations << affiliation unless person&.affiliations&.exists?(affiliation.id)
+          end
         end
       end
 
       locations = format_locations(row["Location"])
       locations.each do |location_name|
         location = Location.find_or_create_by(name: location_name.capitalize)
-        person.locations << location unless person.nil?
+        unless person.nil?
+          person.locations << location unless person&.locations&.exists?(location.id)
+        end
       end
     end
   end
@@ -52,8 +56,8 @@ class CsvUploadJob
   def save_person(row)
     names = format_names(row["Name"])
     person = Person.find_or_initialize_by(first_name: names[0])
-    unless person.nil?
-      person.last_name = names[1..].join(" ") unless names[1].empty?
+    if person.new_record?
+      person.last_name = names[1..].join(" ") unless names[1].nil?
       person.species = row["Species"]
       person.gender = format_gender(row["Gender"])
       person.weapon = row["Weapon"]
