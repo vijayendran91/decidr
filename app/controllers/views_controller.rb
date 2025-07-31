@@ -1,7 +1,4 @@
 class ViewsController < ApplicationController
-  def person_view
-  end
-
   def main
     @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}")
     @columns = format_column_names(Person.column_names.dup)

@@ -6,12 +6,13 @@
     <td><%= person.gender %></td>
     <td><%= person.weapon %></td>
     <td><%= person.vehicle %></td>
-    <td>
-      <% person.affiliations.order(name: :desc).each do |affiliation| %>
+    <td class="affiliations">
+      <% person.affiliations.each do |affiliation| %>
         <span class="badge bg-info text-dark"><%= affiliation.name %></span>
       <% end %>
     </td>
-    <td>
+
+    <td class="locations">
       <% person.locations.each do |location| %>
         <span class="badge bg-secondary"><%= location.name %></span>
       <% end %>

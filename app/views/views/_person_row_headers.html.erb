@@ -3,10 +3,25 @@
     <a href="#"
       data-sort-column=<%=column%>
       data-sort-order="asc"
+      data-column-type="person"
       class="sortable-column arrow-up">
-      <%=column.titleize%> <i class="bi bi-arrow-up-short"></i><span id="sort-arrow" class="">⬆️</span>
+      <%=column.titleize%><span id="sort-arrow" class="">⬆️</span>
     </a>
   </th>
 <%end%>
-<th>Affiliations</th>
-<th>Locations</th>
+<th><a href="#"
+      data-sort-column="affiliations"
+      data-sort-order="asc"
+      data-column-type="association"
+      class="sortable-column arrow-up">
+      Affliation<span id="sort-arrow" class="">⬆️</span>
+    </a>
+</th>
+<th><a href="#"
+      data-sort-column="locations"
+      data-sort-order="asc"
+      data-column-type="association"
+      class="sortable-column arrow-up">
+      Locations<span id="sort-arrow" class="">⬆️</span>
+    </a>
+</th>
