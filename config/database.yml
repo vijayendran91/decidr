@@ -78,9 +78,17 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-production: &production
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+production:
+  primary:
+    adapter: postgresql
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: 5
+
+  cache:
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: 5
 
 cable:
   <<: *production
