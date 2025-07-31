@@ -1,0 +1,20 @@
+<% @persons.each do |person| %>
+  <tr>
+    <td><%= person.first_name %></td>
+    <td><%= person.last_name %></td>
+    <td><%= person.species %></td>
+    <td><%= person.gender %></td>
+    <td><%= person.weapon %></td>
+    <td><%= person.vehicle %></td>
+    <td>
+      <% person.affiliations.order(name: :desc).each do |affiliation| %>
+        <span class="badge bg-info text-dark"><%= affiliation.name %></span>
+      <% end %>
+    </td>
+    <td>
+      <% person.locations.each do |location| %>
+        <span class="badge bg-secondary"><%= location.name %></span>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

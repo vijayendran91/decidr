@@ -1,0 +1,12 @@
+<% @columns.each do |column| %>
+  <th>
+    <a href="#"
+      data-sort-column=<%=column%>
+      data-sort-order="asc"
+      class="sortable-column arrow-up">
+      <%=column.titleize%> <i class="bi bi-arrow-up-short"></i><span id="sort-arrow" class="">⬆️</span>
+    </a>
+  </th>
+<%end%>
+<th>Affiliations</th>
+<th>Locations</th>

@@ -4,37 +4,11 @@
   <table class="table table-striped table-bordered">
     <thead class="table-dark">
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Species</th>
-        <th>Gender</th>
-        <th>Weapon</th>
-        <th>Vehicle</th>
-        <th>Affiliations</th>
-        <th>Locations</th>
+        <%=render partial: "views/person_row_headers", locals: {columns: @columns}%>
       </tr>
     </thead>
-    <tbody>
-      <% @persons.each do |person| %>
-        <tr>
-          <td><%= person.first_name %></td>
-          <td><%= person.last_name %></td>
-          <td><%= person.species %></td>
-          <td><%= person.gender %></td>
-          <td><%= person.weapon %></td>
-          <td><%= person.vehicle %></td>
-          <td>
-            <% person.affiliations.each do |affiliation| %>
-              <span class="badge bg-info text-dark"><%= affiliation.name %></span>
-            <% end %>
-          </td>
-          <td>
-            <% person.locations.each do |location| %>
-              <span class="badge bg-secondary"><%= location.name %></span>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+    <tbody id="people-table-body">
+      <%=render partial: "views/person_rows", locals: {persons: @persons}%>
     </tbody>
   </table>
 </div>
