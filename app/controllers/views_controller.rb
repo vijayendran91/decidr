@@ -1,6 +1,25 @@
 class ViewsController < ApplicationController
   def main
-    @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}").page(params[:page]).per(10)
+    category = params[:category]
+    if category.blank?
+      @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}").page(params[:page]).per(10)
+    else
+      if category == "locations"
+        @persons = Person.joins(:locations)
+                        .where("locations.name ILIKE ?", "%#{params[:query]}%")
+                        .page(params[:page]).per(10)
+                        .distinct
+      elsif category == "affiliations"
+        @persons = Person.joins(:locations)
+                        .where("locations.name ILIKE ?", "%#{params[:query]}%")
+                        .page(params[:page]).per(10)
+                        .distinct
+      else
+        @persons = Person.where("#{category} ILIKE ?", "%#{params[:query]}%")
+                         .page(params[:page]).per(10)
+      end
+    end
+
     @columns = format_column_names(Person.column_names.dup)
     respond_to do |format|
       format.html
