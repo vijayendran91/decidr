@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
       if (column_type === "association"){
         let association = (column === "locations") ? "locations" : "affiliations";
-        let headerElement = document.getElementsByClassName(association);
         document.querySelectorAll("." + association).forEach((element) => {
           let kids = Array.from(element.children);
           if (kids.length <= 1) return;
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }else
       {
-        let url = `/main_view.json?sort_by=${column}&order=${order}`;
+        let url = `/main_view.json?sort_by=${column}&order=${order}&page=1`;
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
