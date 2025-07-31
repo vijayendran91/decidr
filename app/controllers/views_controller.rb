@@ -1,22 +1,23 @@
 class ViewsController < ApplicationController
   def main
     category = params[:category]
+    page = params[:page]
     if category.blank?
-      @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}").page(params[:page]).per(10)
+      @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}").page(page).per(10)
     else
       if category == "locations"
         @persons = Person.joins(:locations)
                         .where("locations.name ILIKE ?", "%#{params[:query]}%")
-                        .page(params[:page]).per(10)
+                        .page(page).per(10)
                         .distinct
       elsif category == "affiliations"
         @persons = Person.joins(:locations)
                         .where("locations.name ILIKE ?", "%#{params[:query]}%")
-                        .page(params[:page]).per(10)
+                        .page(page).per(10)
                         .distinct
       else
         @persons = Person.where("#{category} ILIKE ?", "%#{params[:query]}%")
-                         .page(params[:page]).per(10)
+                         .page(page).per(10)
       end
     end
 
