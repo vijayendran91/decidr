@@ -1,6 +1,6 @@
 class ViewsController < ApplicationController
   def main
-    @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}")
+    @persons = Person.order("#{params[:sort_by] || 'first_name'} #{params[:order] || 'asc'}").page(params[:page]).per(10)
     @columns = format_column_names(Person.column_names.dup)
     respond_to do |format|
       format.html

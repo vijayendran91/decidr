@@ -61,3 +61,5 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "sidekiq"
 gem "csv"
+gem "kaminari"
+gem "kaminari-bootstrap"

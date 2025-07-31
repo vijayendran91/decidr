@@ -11,4 +11,7 @@
       <%=render partial: "views/person_rows", locals: {persons: @persons}%>
     </tbody>
   </table>
+  <div class="pagination">
+    <%= paginate @persons %>
+  </div>
 </div>
