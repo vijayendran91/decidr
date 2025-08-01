@@ -1,11 +1,15 @@
-<div class="container mt-5">
+<div class="container mt-5" id="uploader">
   <h2>Upload a File</h2>
-
-  <%= form_with url: upload_path, local: true, html: { multipart: true } do |form| %>
+  <%= form_with url: upload_path,id: "upload-form", local: true, html: { multipart: true } do |form| %>
     <div class="mb-3">
       <%= form.label :file, "Choose file", class: "form-label" %>
       <%= form.file_field :file, class: "form-control" %>
     </div>
-    <%= form.submit "Upload", class: "btn btn-primary" %>
+    <%= form.submit "Upload", class: "btn btn-primary", id: "upload-btn"%>
   <% end %>
+</div>
+<div id="spinner" class="d-none text-center mt-3">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
 </div>

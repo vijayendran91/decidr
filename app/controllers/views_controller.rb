@@ -11,8 +11,8 @@ class ViewsController < ApplicationController
                         .page(page).per(10)
                         .distinct
       elsif category == "affiliations"
-        @persons = Person.joins(:locations)
-                        .where("locations.name ILIKE ?", "%#{params[:query]}%")
+        @persons = Person.joins(:affiliations)
+                        .where("affiliations.name ILIKE ?", "%#{params[:query]}%")
                         .page(page).per(10)
                         .distinct
       else
