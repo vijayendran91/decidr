@@ -1,7 +1,7 @@
 class CsvUploadJob
   include Sidekiq::Job
 
-  def perform(file_key)
+  def perform(file_key, upload_id)
     blob = ActiveStorage::Blob.find_by(key: file_key)
     file_path = ActiveStorage::Blob.service.path_for(blob.key)
     CSV.foreach(file_path, headers: true) do |row|
@@ -25,6 +25,7 @@ class CsvUploadJob
         end
       end
     end
+    Upload.find(upload_id).destroy!
   end
 
   private

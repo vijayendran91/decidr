@@ -6,7 +6,7 @@ class UploadController < ApplicationController
     # Can be uploaded to Amazon S3 or ActiveStorage
     @upload = Upload.new(file: upload_params)
     if @upload.save!
-      CsvUploadJob.perform_async(@upload.file.blob.key)
+      CsvUploadJob.perform_async(@upload.file.blob.key, @upload.id)
       redirect_to main_view_path, notice: "Upload queued for processing"
     end
   end
